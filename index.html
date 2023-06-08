@@ -4,29 +4,98 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- Bootstrap CSS -->
 		<link
 			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-			integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-			crossorigin="anonymous"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
 		/>
 		<script src="https://unpkg.com/vue@3"></script>
 		<title>Learning Vue</title>
 	</head>
 	<body>
-		<div id="content" class="container">
-			<h4>{{pageTitle}}</h4>
-            <p>Welcome to the World of Vues</p>
+		<div id="body">
+			<nav 
+			class="navbar navbar-expand-lg"
+			:class="{
+				'navbar-dark bg-dark': darkNavbar, 'navbar-light bg-light': !darkNavbar
+			}"
+			>
+				<a class="navbar-brand" href="#">Navbar</a>
+				<button
+					class="navbar-toggler"
+					type="button"
+					data-toggle="collapse"
+					data-target="#navbarNav"
+					aria-controls="navbarNav"
+					aria-expanded="false"
+					aria-label="Toggle navigation"
+				>
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav">
+						<li v-for="(page, index) in pages" class="nav-item active" :key="index">
+							<a 
+							class="nav-link"
+							:class="{active: activePage==index}"
+							:href="page.link.url"
+							@click.prevent="activePage=index"
+								>{{page.link.text}}</a
+							>
+						</li>
+					</ul>
+					<form action="">
+						<button 
+						class="btn btn-sm btn-secondary"
+						@click.prevent="darkNavbar=!darkNavbar"
+						>Dark Mode</button>
+					</form>
+				</div>
+			</nav>
+			<div id="content" class="container">
+				<h4>{{pages[activePage].pageTitle}}</h4>
+				<p>{{pages[activePage].content}}</p>
+			</div>
 		</div>
-
-        <script>
-            Vue.createApp({
-                data() {
-                    return {
-                        pageTitle: 'Hello, Alex'
-                    };
-                }
-            }).mount('#content')
-        </script>
+		<script>
+			Vue.createApp({
+				data() {
+					return {
+						darkNavbar: false,
+						activePage: 0,
+						pages: [
+							{
+								link: {
+									text: "Home",
+									url: "https://alexpy.com",
+								},
+								pageTitle: "This is the Home page.",
+								content:
+									`Hi there, Alex this side. I am a Software Engineer at Gigalogy`,
+							},
+							{
+								link: {
+									text: "About",
+									url: "https://alexpy.com",
+								},
+								pageTitle: "Welcome to my Portfolio site.",
+								content:
+									`I am a Software Engineer at Gigalogy.<br>Joined on June 2023.`,
+							},
+							{
+								link: {
+									text: "Contact",
+									url: "https://alexpy.com",
+								},
+								pageTitle: "Find me here",
+								content:
+									"Email: shaon.alex@gigalogy.com",
+							},
+						],
+					};
+				},
+			}).mount("#body");
+		</script>
 	</body>
 </html>
