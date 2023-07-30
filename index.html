@@ -11,47 +11,65 @@
 		<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 	</head>
 	<body>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav 
+			class="navbar navbar-expand-lg"
+			:class="{'navbar-light bg-light': !useDarkNavbar, 'navabr-dark bg-dark': useDarkNavbar}"
+		
+		>
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
-					<li v-for="(page, index) in pages" class="nav-item active" :key="index">
-						<a 
-                        class="nav-link"
-                        :href="page.link.url"
-                        >{{page.link.text}}</a>
+					<li
+						v-for="(page, index) in pages"
+						class="nav-item active"
+						:key="index"
+					>
+						<a
+							class="nav-link"
+							:href="page.link.url"
+							@click.prevent="activePage = index"
+							>{{page.link.text}}</a
+						>
 					</li>
 				</ul>
+				<form class="d-flex">
+					<button 
+						class="btn btn-primary"
+						@click.prevent="useDarkNavbar=!useDarkNavbar"	
+					>Toggle</button>
+				</form>
 			</div>
 		</nav>
 		<div id="content" class="container p-5">
-			<!-- <h1>{{ page.pageTitle }}</h1>
-			<p>{{ page.content }}</p> -->
+			<h1>{{ pages[activePage].pageTitle }}</h1>
+			<p>{{ pages[activePage].content }}</p>
 		</div>
 
 		<script>
 			Vue.createApp({
 				data() {
 					return {
-                        pages: [
-                            {
-                                link: {text: "Home", url: "index.html"},
-                                pageTitle: "Portfolio Page",
-                                content: "Hey! Welcome to my page.",
-                            },
-                            {
-                                link: {text: "About", url: "about.html"},
-                                pageTitle: "About me!",
-                                content: "I am a Software Engineer.",
-                            },
-                            {
-                                link: {text: "Contact", url: "contact.html"},
-                                pageTitle: "Contact",
-                                content: "Email: indrajit.alex@gmail.com"
-                            },
-                        ]
+						useDarkNavbar: false,
+						activePage: 0,
+						pages: [
+							{
+								link: { text: "Home", url: "index.html" },
+								pageTitle: "Portfolio Page",
+								content: "Hey! Welcome to my page.",
+							},
+							{
+								link: { text: "About", url: "about.html" },
+								pageTitle: "About me!",
+								content: "I am a Software Engineer.",
+							},
+							{
+								link: { text: "Contact", url: "contact.html" },
+								pageTitle: "Contact",
+								content: "Email: indrajit.alex@gmail.com",
+							},
+						],
 					};
 				},
-			}).mount('body');
+			}).mount("body");
 		</script>
 	</body>
 </html>
